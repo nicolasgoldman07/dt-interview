@@ -73,13 +73,22 @@ const Heatmap = ({ xAxisProp, yAxisProp, metric, data = [] }: HeatmapProps) => {
                                 <HeatmapStyledBox
                                     key={xIndex}
                                     style={{
-                                        backgroundColor: getItemColor(value),
-                                        border: `1px solid ${Colors.Background.Field.Neutral.Emphasized}`,
+                                        backgroundColor: Colors.Background.Field.Neutral.AccentActive,
                                         width: '100%',
                                         height: '100%',
                                         padding: 0,
                                     }}
-                                />
+                                >
+                                    <HeatmapStyledBox
+                                        key={xIndex}
+                                        style={{
+                                            backgroundColor: getItemColor(value),
+                                            width: '100%',
+                                            height: '100%',
+                                            padding: 0,
+                                        }}
+                                    />
+                                </HeatmapStyledBox>
                             )
                         }
                         )}
