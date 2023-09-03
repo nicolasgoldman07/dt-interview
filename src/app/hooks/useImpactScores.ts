@@ -12,10 +12,16 @@ export interface ImpactScore {
     impact_score: number;
 }
 
+export interface UniqueValuesToFilter { [key: string]: string[] }
+
 const useImpactScores = () => {
     const [impactScores, setImpactScores] = useState<ImpactScore[]>([]);
-
-    const [impactScoresHeatmapParsed, setImpactScoresHeatmapParsed] = useState<{ [browserType: string]: ImpactScore[] }>({});
+    const [uniqueValuesToFilter, setUniqueValuesToFilter] = useState<UniqueValuesToFilter>({
+        browserType: [],
+        pageName: [],
+        analyzedMetric: [],
+        typePrediction: [],
+    });
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
 
@@ -33,20 +39,24 @@ const useImpactScores = () => {
                 const { response } = await apiResponse.json();
                 const parsedImpactScores: ImpactScore[] = JSON.parse(response);
 
-                const impactScoresHeatmapParsed: { [key: string]: ImpactScore[] } = parsedImpactScores.reduce((acc, score) => {
-                    const { browser_type } = score;
-                    if (!acc[browser_type]) {
-                        acc[browser_type] = [];
-                    }
-                    acc[browser_type].push({
-                        page_name: score.page_name.split("||").length > 1 ? score.page_name.split("||loading of page")[1] : score.page_name,
-                        analyzed_metric: score.analyzed_metric.charAt(0).toUpperCase() + score.analyzed_metric.slice(1).replace(/_/g, ' ').toLowerCase(),
-                        impact_score: score.impact_score,
-                    });
-                    return acc;
-                }, {});
+                setUniqueValuesToFilter({
+                    browserType: [...new Set(parsedImpactScores.map((result) => result.browser_type))],
+                    pageName: [...new Set(parsedImpactScores.map((result) => result.page_name))],
+                    analyzedMetric: [...new Set(parsedImpactScores.map((result) => result.analyzed_metric))],
+                });
+                // const impactScoresHeatmapParsed: { [key: string]: ImpactScore[] } = parsedImpactScores.reduce((acc, score) => {
+                //     const { browser_type } = score;
+                //     if (!acc[browser_type]) {
+                //         acc[browser_type] = [];
+                //     }
+                //     acc[browser_type].push({
+                //         page_name: score.page_name.split("||").length > 1 ? score.page_name.split("||loading of page")[1] : score.page_name,
+                //         analyzed_metric: score.analyzed_metric.charAt(0).toUpperCase() + score.analyzed_metric.slice(1).replace(/_/g, ' ').toLowerCase(),
+                //         impact_score: score.impact_score,
+                //     });
+                //     return acc;
+                // }, {});
 
-                setImpactScoresHeatmapParsed(impactScoresHeatmapParsed);
                 setImpactScores(parsedImpactScores);
                 setLoading(false);
             } catch (error) {
@@ -58,7 +68,7 @@ const useImpactScores = () => {
         fetchData();
     }, []);
 
-    return { impactScores, impactScoresHeatmapParsed, loading, error };
+    return { impactScores, loading, error, uniqueValuesToFilter };
 };
 
 export default useImpactScores;
