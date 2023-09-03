@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Home } from "./pages/Home";
 import { ImpactScores } from "./pages/ImpactScores";
+import { SimulationResults } from "./pages/SimulationResults";
 
 export const App = () => {
   return (
@@ -17,6 +18,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/impact-scores" element={<ImpactScores />} />
+          <Route path="/simulation-results" element={<SimulationResults />} />
         </Routes>
       </Page.Main>
     </Page>

@@ -10,6 +10,8 @@ export const Header = () => {
         <AppHeader.NavItem as={Link} to="/impact-scores">
           Impact Scores
         </AppHeader.NavItem>
+        <AppHeader.NavItem as={Link} to="/simulation-results">
+          Simulation Results
         </AppHeader.NavItem>
       </AppHeader.NavItems>
     </AppHeader>
