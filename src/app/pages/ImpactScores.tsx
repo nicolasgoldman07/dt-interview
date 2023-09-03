@@ -17,17 +17,15 @@ export const ImpactScores = () => {
 
   return (
     <>
-      <Flex flexDirection="column" alignItems="center" padding={32}>
+      <Flex flexDirection="row" alignItems="center" padding={32}>
         <img
           src="./assets/Dynatrace_Logo.svg"
           alt="Dynatrace Logo"
-          width={150}
-          height={150}
-          style={{ paddingBottom: 32 }}
+          width={50}
+          height={50}
         />
         <Heading level={2}>
-          Explore the data in your environment by using the Dynatrace Query
-          Language
+          HeatMap Chart
         </Heading>
       </Flex>
       <Flex flexDirection="column" alignItems="center" padding={32}>

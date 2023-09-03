@@ -11,8 +11,8 @@ const HeatmapStyledBox = styled.div`
     color: ${Colors.Text.Neutral.Default};
     background: ${Colors.Background.Field.Neutral.Emphasized};
     padding: ${Spacings.Size8};
-    width: 100px;
-    height: 45px;
+    width: 85px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,13 +51,13 @@ const Heatmap = ({ xAxisProp, yAxisProp, metric, data = [] }: HeatmapProps) => {
     fillHeatmapData(heatmapData, groupedDataY, uniqueYValues, uniqueXValues, xAxisProp, maxPointValue, metric);
 
     return (
-        <Flex width="100%" flexDirection="column" alignItems="center">
+        <Flex width="fit-content" flexDirection="column" alignItems="center">
             <Grid gridTemplateColumns={`repeat(${uniqueXValues.length + 1}, 1fr);`} gridTemplateRows={`repeat(${uniqueYValues.length + 1}, 1fr);`} >
                 <HeatmapStyledBox key={'empty'} />
                 {uniqueXValues.map((xValue, xIndex) => (
                     <HeatmapStyledBox key={xIndex}>
                         <Tooltip text={xValue}>
-                            <span>{xValue}</span>
+                            <HeatmapBoxText>{xValue}</HeatmapBoxText>
                         </Tooltip>
                     </HeatmapStyledBox>
                 ))}

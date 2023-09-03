@@ -39,7 +39,7 @@ const useImpactScores = () => {
                         acc[browser_type] = [];
                     }
                     acc[browser_type].push({
-                        page_name: score.page_name.split("||").length > 1 ? score.page_name.split("||")[1] : score.page_name,
+                        page_name: score.page_name.split("||").length > 1 ? score.page_name.split("||loading of page")[1] : score.page_name,
                         analyzed_metric: score.analyzed_metric.charAt(0).toUpperCase() + score.analyzed_metric.slice(1).replace(/_/g, ' ').toLowerCase(),
                         impact_score: score.impact_score,
                     });
