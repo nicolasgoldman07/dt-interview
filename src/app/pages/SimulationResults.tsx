@@ -6,26 +6,33 @@ import {
 import React, { useEffect, useState } from 'react';
 import useSimulationResults, { SimulationResult } from '../hooks/useSimulationResults';
 import { ChartData, LineChart } from '../components/LineChart';
+import { SimulationResultsFilters } from '../components/SimulationResultsFilter';
 
 export const SimulationResults = () => {
-  const { simulationResults, loading } = useSimulationResults();
+  const { simulationResults, loading, uniqueValuesToFilter } = useSimulationResults();
   const [chartData, setChartData] = useState<ChartData>({ labels: [], datasets: [] });
+  const [analyzedMetric, setAnalyzedMetric] = useState<string>("DOM_COMPLETE_TIME");
+  const [pageName, setPageName] = useState<string>("page.com||loading of page /enrol/fidelity");
+  const [browserType, setBrowserType] = useState<string>("All");
 
-  const filterMetric = "DOM_COMPLETE_TIME";
-  const filterPageName = "page.com||loading of page /enrol/fidelity";
-  const filterBrowserType = "All";
+  const onFilterChange = (fullFilters: { [key: string]: { value: string } }) => {
+    setAnalyzedMetric(fullFilters["analyzedMetric"].value[0]);
+    setPageName(fullFilters["pageName"].value[0]);
+    setBrowserType(fullFilters["browserType"].value[0]);
+  }
+
 
   useEffect(() => {
     const filteredData: SimulationResult[] = simulationResults.filter((item) => {
       return (
-        item.analyzed_metric === filterMetric &&
-        item.page_name === filterPageName &&
-        item.browser_type === filterBrowserType
+        item.analyzed_metric === analyzedMetric &&
+        item.page_name === pageName &&
+        item.browser_type === browserType
       );
     });
     const chartData = generateChartData(filteredData);
     setChartData(chartData);
-  }, [simulationResults]);
+  }, [analyzedMetric, browserType, pageName, simulationResults]);
 
   return (
     <>
@@ -40,12 +47,15 @@ export const SimulationResults = () => {
           Simulation Results
         </Heading>
       </Flex>
+      <Flex flexDirection="row" alignItems="center" padding={32}>
+        <SimulationResultsFilters uniqueValuesToFilter={uniqueValuesToFilter} onFilterChange={onFilterChange} />
+      </Flex>
       <Flex flexDirection="column" alignItems="center" padding={32}>
         {loading
           ? <Skeleton width="50%" height="30px" />
           : <LineChart
             data={chartData}
-            xAxisTitle={`Median ${filterMetric} (<unit>)`}
+            xAxisTitle={`Median ${analyzedMetric} (<unit>)`}
             yAxisTitle="Predicted Exit Rate"
           />
         }
