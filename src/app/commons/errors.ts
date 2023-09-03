@@ -1,0 +1,1 @@
+export const FAILED_NETWORK_RESPONSE = "Network response finished with errors";
