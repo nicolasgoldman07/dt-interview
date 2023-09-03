@@ -27,7 +27,9 @@
     "@dynatrace-sdk/navigation": "1.0.1",
     "@dynatrace-sdk/user-preferences": "1.0.1",
     "@dynatrace/strato-components-preview": "0.100.1",
+    "chart.js": "^4.4.0",
     "react": "^17.0.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^6.4.1"
   },
