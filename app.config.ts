@@ -5,8 +5,8 @@ const config: CliOptions = {
   environmentUrl: 'https://azg39614.apps.dynatrace.com/',
   app: {
     name: 'Dynatrace Test Interview',
-    version: '0.0.0',
-    description: 'A starting project with routing, fetching data, and charting',
+    version: '0.0.1',
+    description: 'Dynatrace Test Interview App - ImpactScores heatmap and SimulationResults chart',
     id: 'my.dynatrace.test.interview',
     scopes: [
       { name: 'storage:logs:read', comment: 'default template' },
