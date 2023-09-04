@@ -127,7 +127,7 @@ const generateChartData = (data: SimulationResult[]): ChartData => {
   const exitMinData = chartData.datasets[5].data;
 
   data.forEach(element => {
-    chartData.labels.push((element.median * 100));
+    chartData.labels.push((element.median));
     exitMaxData.push(element.predicted_exit_max * 100);
     exitData.push(element.predicted_exit * 100);
     exitMinData.push(element.predicted_exit_min * 100);
