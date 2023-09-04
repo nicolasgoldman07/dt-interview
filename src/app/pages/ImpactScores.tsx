@@ -21,11 +21,12 @@ export const ImpactScores = () => {
   }
 
   useEffect(() => {
-    const filteredData: ImpactScore[] = impactScores.filter((item) => {
-      return (
-        item.browser_type === browserType
-      );
+    const filteredData: ImpactScore[] = impactScores.filter((item) => item.browser_type === browserType);
+    filteredData.forEach((item) => {
+      item.page_name = item.page_name.split("||loading of page").length > 1 ? item.page_name.split("||loading of page")[1] : item.page_name
+      item.analyzed_metric = item.analyzed_metric.charAt(0).toUpperCase() + item.analyzed_metric.slice(1).replace(/_/g, ' ').toLowerCase()
     });
+
     setFilteredData(filteredData);
   }, [browserType, impactScores]);
 
@@ -42,13 +43,28 @@ export const ImpactScores = () => {
           HeatMap Chart
         </Heading>
       </Flex>
-      <Flex flexDirection="row" alignItems="center" paddingLeft={32}>
-        <ImpactScoresFilters uniqueValuesToFilter={uniqueValuesToFilter} onFilterChange={onFilterChange} />
-      </Flex>
-      <Flex flexDirection="column" alignItems="center" padding={32}>
+      <Flex flexDirection="column" alignItems="flex-start" paddingLeft={32}>
         {loading
-          ? <Skeleton width="50%" height="30px" />
-          : <Heatmap data={filteredData} xAxisProp="analyzed_metric" yAxisProp="page_name" metric="impact_score" />
+          ? (
+            <Flex alignSelf='center' marginTop={20}>
+              <Skeleton width="50vw" height="30px" />
+            </Flex>
+          )
+          : (
+            <>
+              <Flex flexDirection="row">
+                <ImpactScoresFilters uniqueValuesToFilter={uniqueValuesToFilter} onFilterChange={onFilterChange} />
+              </Flex>
+              <Flex alignSelf='center'>
+                <Heatmap
+                  data={filteredData}
+                  xAxisProp="analyzed_metric"
+                  yAxisProp="page_name"
+                  metric="impact_score"
+                />
+              </Flex>
+            </>
+          )
         }
       </Flex>
     </>

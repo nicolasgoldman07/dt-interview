@@ -1,7 +1,5 @@
 import React, { ReactElement, cloneElement } from 'react';
-import {
-    _mergeProps,
-} from '@dynatrace/strato-components-preview/core';
+import { _mergeProps } from '@dynatrace/strato-components-preview/core';
 import { FilterBar } from '@dynatrace/strato-components-preview/filters';
 import {
     Select,

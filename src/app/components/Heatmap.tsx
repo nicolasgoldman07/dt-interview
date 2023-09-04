@@ -6,13 +6,12 @@ import Spacings from '@dynatrace/strato-design-tokens/spacings';
 import Typography from '@dynatrace/strato-design-tokens/typography';
 import { Flex, Grid, Tooltip } from '@dynatrace/strato-components-preview';
 
-// TODO: Change some styling to be configurable via props
 const HeatmapStyledBox = styled.div`
     color: ${Colors.Text.Neutral.Default};
     background: ${Colors.Background.Field.Neutral.Emphasized};
     padding: ${Spacings.Size8};
-    width: 85px;
-    height: 40px;
+    width: 90px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,9 +19,23 @@ const HeatmapStyledBox = styled.div`
     font-size: ${Typography.Text.Base.Default.Size};
 `;
 
+interface HeatmapDataBoxProps {
+    value?: number;
+    colorRange?: [string, string];
+}
+const HeatmapDataBox = styled(HeatmapStyledBox)`
+    background: ${(props: HeatmapDataBoxProps) => props.value ?
+        getItemColor(props.value, props.colorRange) :
+        props.colorRange ? props.colorRange[0] : Colors.Background.Field.Neutral.Emphasized
+    };
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+`;
+
 const HeatmapBoxText = styled.span`
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 `;
@@ -31,10 +44,17 @@ interface HeatmapProps {
     xAxisProp: string;
     yAxisProp: string;
     metric: string;
+    colorRange?: [string, string];
     data?: { [key: string]: any };
 }
 
-const Heatmap = ({ xAxisProp, yAxisProp, metric, data = [] }: HeatmapProps) => {
+const Heatmap = ({
+    xAxisProp,
+    yAxisProp,
+    metric,
+    colorRange,
+    data = []
+}: HeatmapProps) => {
     const groupedDataX = groupDataByProperty(xAxisProp, data);
     const groupedDataY = groupDataByProperty(yAxisProp, data);
     const uniqueXValues = Object.keys(groupedDataX);
@@ -70,25 +90,9 @@ const Heatmap = ({ xAxisProp, yAxisProp, metric, data = [] }: HeatmapProps) => {
                         </HeatmapStyledBox>
                         {heatmapData[yIndex].map((value, xIndex) => {
                             return (
-                                <HeatmapStyledBox
-                                    key={xIndex}
-                                    style={{
-                                        backgroundColor: Colors.Background.Field.Neutral.AccentActive,
-                                        width: '100%',
-                                        height: '100%',
-                                        padding: 0,
-                                    }}
-                                >
-                                    <HeatmapStyledBox
-                                        key={xIndex}
-                                        style={{
-                                            backgroundColor: getItemColor(value),
-                                            width: '100%',
-                                            height: '100%',
-                                            padding: 0,
-                                        }}
-                                    />
-                                </HeatmapStyledBox>
+                                <HeatmapDataBox key={xIndex} colorRange={colorRange}>
+                                    <HeatmapDataBox key={xIndex} value={value} colorRange={colorRange} />
+                                </HeatmapDataBox>
                             )
                         }
                         )}
@@ -131,7 +135,11 @@ const fillHeatmapData = (heatmapData, groupedDataY, uniqueYValues, uniqueXValues
     });
 }
 
-const getItemColor = (value) => {
+const getItemColor = (value, colorRange) => {
+    if (colorRange && colorRange[1] && colorRange[1].startsWith("#")) {
+        const hex = colorRange[1].replace("#", "");
+        return `rgba(${parseInt(hex.substring(0, 2), 16)}, ${parseInt(hex.substring(2, 4), 16)}, ${parseInt(hex.substring(4, 6), 16)}, ${value})`;
+    }
     return `rgba(0, 0, 255, ${value})`;
 }
 

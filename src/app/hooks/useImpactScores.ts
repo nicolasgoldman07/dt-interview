@@ -44,18 +44,6 @@ const useImpactScores = () => {
                     pageName: [...new Set(parsedImpactScores.map((result) => result.page_name))],
                     analyzedMetric: [...new Set(parsedImpactScores.map((result) => result.analyzed_metric))],
                 });
-                // const impactScoresHeatmapParsed: { [key: string]: ImpactScore[] } = parsedImpactScores.reduce((acc, score) => {
-                //     const { browser_type } = score;
-                //     if (!acc[browser_type]) {
-                //         acc[browser_type] = [];
-                //     }
-                //     acc[browser_type].push({
-                //         page_name: score.page_name.split("||").length > 1 ? score.page_name.split("||loading of page")[1] : score.page_name,
-                //         analyzed_metric: score.analyzed_metric.charAt(0).toUpperCase() + score.analyzed_metric.slice(1).replace(/_/g, ' ').toLowerCase(),
-                //         impact_score: score.impact_score,
-                //     });
-                //     return acc;
-                // }, {});
 
                 setImpactScores(parsedImpactScores);
                 setLoading(false);
