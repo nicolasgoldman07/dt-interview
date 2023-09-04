@@ -10,7 +10,9 @@ const config: CliOptions = {
     id: 'my.dynatrace.test.interview',
     scopes: [
       { name: 'storage:logs:read', comment: 'default template' },
-      { name: 'storage:buckets:read', comment: 'default template' }
+      { name: 'storage:buckets:read', comment: 'default template' },
+      { name: 'app-engine:apps:run', comment: 'default template' },
+      { name: 'environment-api:credentials:read', comment: 'default template' }
     ],
   },
   icon: './src/assets/Dynatrace_Logo.svg',

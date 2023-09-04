@@ -1,8 +1,13 @@
-export default async (payload: unknown = undefined) => {
-  const url = '';
-  const username = '';
-  const password = '';
+/* eslint-disable no-secrets/no-secrets */
+import {
+  credentialVaultClient,
+} from "@dynatrace-sdk/client-classic-environment-v2";
 
+export default async (payload: unknown = undefined) => {
+  const [urlToken] = await getToken("CREDENTIALS_VAULT-9A78B088AC46D929", ["token"]);
+  const url = `${urlToken}get_simulation_scores/run`
+
+  const [username, password] = await getToken("CREDENTIALS_VAULT-6828AECD951D54A2", ["username", "password"]);
 
   const requestBody = {
     tenant_id: 'xxx00000',
@@ -21,8 +26,14 @@ export default async (payload: unknown = undefined) => {
     body: JSON.stringify(requestBody)
   };
 
-
   return fetch(url, requestOptions)
     .then(response => response.json())
-  // TODO manejar error
 }
+
+const getToken = async (vaultId: string, lookupTokens: string[]) => {
+  const data = await credentialVaultClient.getCredentialsDetails({
+    id: vaultId,
+  });
+  const credentials = lookupTokens.map((token) => (data as any)[token]);
+  return credentials;
+};
