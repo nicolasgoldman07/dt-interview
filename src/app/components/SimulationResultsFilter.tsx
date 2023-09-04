@@ -31,8 +31,8 @@ const Mapper = (props: MappingProps) => {
     );
 };
 
-const generateSelectItem = (name, defaultValue, uniqueValues, id) => (
-    <FilterBar.Item name={name} label={name}>
+const generateSelectItem = (name, defaultValue, uniqueValues, id, label) => (
+    <FilterBar.Item name={name} label={label}>
         <Mapper defaultValue={defaultValue}>
             <Select defaultSelectedId={defaultValue} name={name} id={id}>
                 {uniqueValues.map((value) => (
@@ -62,9 +62,9 @@ export const SimulationResultsFilters = (props: {
         <FilterBar
             onFilterChange={props.onFilterChange}
         >
-            {generateSelectItem("analyzedMetric", defaultFilterState.analyzedMetric.value, uniqueValuesToFilter.analyzedMetric, "analyzedMetric-select")}
-            {generateSelectItem("browserType", defaultFilterState.browserType.value, uniqueValuesToFilter.browserType, "browserType-select")}
-            {generateSelectItem("pageName", defaultFilterState.pageName.value, uniqueValuesToFilter.pageName, "pageName-select")}
+            {generateSelectItem("analyzedMetric", defaultFilterState.analyzedMetric.value, uniqueValuesToFilter.analyzedMetric, "analyzedMetric-select", "Analized Metric")}
+            {generateSelectItem("browserType", defaultFilterState.browserType.value, uniqueValuesToFilter.browserType, "browserType-select", "Browser Type")}
+            {generateSelectItem("pageName", defaultFilterState.pageName.value, uniqueValuesToFilter.pageName, "pageName-select", "Page Name")}
         </FilterBar>
     );
 };

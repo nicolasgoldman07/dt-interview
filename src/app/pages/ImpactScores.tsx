@@ -47,7 +47,7 @@ export const ImpactScores = () => {
         {loading
           ? (
             <Flex alignSelf='center' marginTop={20}>
-              <Skeleton width="50vw" height="30px" />
+              <Skeleton width="40vw" height="30px" />
             </Flex>
           )
           : (
@@ -55,7 +55,7 @@ export const ImpactScores = () => {
               <Flex flexDirection="row">
                 <ImpactScoresFilters uniqueValuesToFilter={uniqueValuesToFilter} onFilterChange={onFilterChange} />
               </Flex>
-              <Flex alignSelf='center'>
+              <Flex alignSelf='center' width="90%" justifyContent="center">
                 <Heatmap
                   data={filteredData}
                   xAxisProp="analyzed_metric"
